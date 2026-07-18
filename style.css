@@ -1126,9 +1126,6 @@ body {
     transition: opacity 1.8s ease-in-out, transform 10s ease-in-out;
 }
 
-.cover-image[src*="cover3"] {
-    object-position: center 20%;
-}
 
 .cover-image.active {
     opacity: 0.85;
