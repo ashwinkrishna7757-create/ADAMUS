@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAMUS - Secure Authorization Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=1.4">
+</head>
+<body class="login-body-layout">
+    <!-- Abstract gradient backgrounds -->
+    <div class="bg-glow bg-glow-primary"></div>
+    <div class="bg-glow bg-glow-secondary"></div>
+    <div class="bg-grid-overlay"></div>
+
+    <div class="login-wrapper">
+        <!-- Logo Branding -->
+        <a href="index.html" class="login-brand">
+            <span class="logo-mark">▲</span>
+            <span class="logo-name">ADAMUS</span>
+        </a>
+
+        <!-- Main Auth Card -->
+        <div class="login-card glass-panel" id="auth-card">
+            <!-- Portals Selector -->
+            <div class="login-tabs">
+                <button class="login-tab-btn active" id="tab-customer">Customer Portal</button>
+                <button class="login-tab-btn" id="tab-employee">Employee Intranet</button>
+            </div>
+
+            <!-- Form Container -->
+            <div class="login-form-container">
+                <div class="portal-header">
+                    <h2 id="portal-title">Customer Secure Access</h2>
+                    <p id="portal-subtitle">Authorize your automated marketing workspace session</p>
+                </div>
+
+                <form id="login-form" class="auth-form">
+                    <div class="input-group">
+                        <label for="username">Username or Email</label>
+                        <input type="text" id="username" placeholder="Enter credentials..." required autocomplete="username">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Security Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <!-- Slideable MFA Token (Employee only) -->
+                    <div class="input-group slide-input-group" id="mfa-group">
+                        <label for="mfa-token">MFA Security Token</label>
+                        <input type="text" id="mfa-token" placeholder="000000" maxlength="6" pattern="[0-9]{6}">
+                        <span class="input-tip">Enter the 6-digit code from your security key app.</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-glow btn-submit" id="btn-submit-login">
+                        [ Initiate Session ]
+                    </button>
+                </form>
+
+                <!-- Simulated Loading Terminal Fader -->
+                <div class="auth-terminal-box" id="auth-terminal">
+                    <div class="terminal-headerbar">
+                        <div class="console-controls">
+                            <span class="control-dot dot-red"></span>
+                            <span class="control-dot dot-yellow"></span>
+                            <span class="control-dot dot-green"></span>
+                        </div>
+                        <span class="console-title">Auth Engine v1.0</span>
+                    </div>
+                    <div class="auth-terminal-body" id="auth-terminal-body">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-card-footer">
+                <a href="index.html" class="back-home-link">&lt; Return to home interface</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Specific Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabCustomer = document.getElementById('tab-customer');
+            const tabEmployee = document.getElementById('tab-employee');
+            const portalTitle = document.getElementById('portal-title');
+            const portalSubtitle = document.getElementById('portal-subtitle');
+            const mfaGroup = document.getElementById('mfa-group');
+            const mfaToken = document.getElementById('mfa-token');
+            const loginForm = document.getElementById('login-form');
+            const authTerminal = document.getElementById('auth-terminal');
+            const authTerminalBody = document.getElementById('auth-terminal-body');
+            const btnSubmitLogin = document.getElementById('btn-submit-login');
+
+            let currentMode = 'customer'; // Default mode
+
+            // Switch layout based on selected portal mode
+            function setPortalMode(mode) {
+                currentMode = mode;
+                if (mode === 'customer') {
+                    tabCustomer.classList.add('active');
+                    tabEmployee.classList.remove('active');
+                    portalTitle.textContent = 'Customer Secure Access';
+                    portalSubtitle.textContent = 'Authorize your automated marketing workspace session';
+                    mfaGroup.classList.remove('active');
+                    mfaToken.removeAttribute('required');
+                } else {
+                    tabCustomer.classList.remove('active');
+                    tabEmployee.classList.add('active');
+                    portalTitle.textContent = 'Employee Intranet';
+                    portalSubtitle.textContent = 'Enter network operations console credentials';
+                    mfaGroup.classList.add('active');
+                    mfaToken.setAttribute('required', 'required');
+                }
+            }
+
+            // Tab Event Listeners
+            tabCustomer.addEventListener('click', () => {
+                window.location.hash = 'customer';
+            });
+            tabEmployee.addEventListener('click', () => {
+                window.location.hash = 'employee';
+            });
+
+            // Handle Hash Routing
+            function handleHashChange() {
+                const hash = window.location.hash.replace('#', '');
+                if (hash === 'employee') {
+                    setPortalMode('employee');
+                } else {
+                    setPortalMode('customer');
+                }
+            }
+
+            window.addEventListener('hashchange', handleHashChange);
+            handleHashChange(); // Initial check
+
+            // Form Submit Simulation
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Start Console Terminal Transition
+                loginForm.style.display = 'none';
+                authTerminal.classList.add('active');
+
+                // Output Steps
+                const steps = [
+                    { text: '[system] Encrypting portal credentials...', type: 'info' },
+                    { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                    { text: `[auth] Verifying keys against active ${currentMode.toUpperCase()} security group...`, type: 'hl' },
+                    ...(currentMode === 'employee' ? [
+                        { text: '[auth] Checking Multi-Factor Authentication token signature... PASS', type: 'success' }
+                    ] : []),
+                    { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
+                    { text: '[system] Allocating local campaign sandbox storage blocks...', type: 'info' },
+                    { text: '[system] Authorization SUCCESS.', type: 'success' },
+                    { text: `[system] Opening session. Welcome back, ${document.getElementById('username').value || 'User'}!`, type: 'success' }
+                ];
+
+                let delayAccumulator = 0;
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        const line = document.createElement('div');
+                        line.className = `console-line ${step.type}`;
+                        line.innerHTML = step.text.replace(/\[system\]|\[auth\]/g, (match) => {
+                            return `<span class="hl">${match}</span>`;
+                        });
+                        authTerminalBody.appendChild(line);
+                        authTerminalBody.scrollTop = authTerminalBody.scrollHeight;
+
+                        // Redirect back to landing page on complete
+                        if (index === steps.length - 1) {
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1500);
+                        }
+                    }, delayAccumulator);
+                    
+                    delayAccumulator += (index === 1 || index === 2) ? 1000 : 500;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAMUS - Next Gen Local Applications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=1.4">
+</head>
+<body>
+    <!-- Abstract gradient backgrounds -->
+    <div class="bg-glow bg-glow-primary"></div>
+    <div class="bg-glow bg-glow-secondary"></div>
+    <div class="bg-grid-overlay"></div>
+
+    <div class="app-wrapper">
+        <!-- Navigation Header -->
+        <header class="navbar">
+            <div class="nav-container">
+                <a href="#" class="brand-logo">
+                    <span class="logo-mark">▲</span>
+                    <span class="logo-name">ADAMUS</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#demo">Interactive Demo</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="https://github.com/vmothee/Project_ADAMUS" target="_blank" class="git-link">GitHub</a>
+                </nav>
+                <div class="nav-actions">
+                    <a href="login.html#customer" class="nav-login-link">Customer Login</a>
+                    <span class="nav-divider">|</span>
+                    <a href="login.html#employee" class="nav-login-link">Employee Login</a>
+                    <a href="#demo" class="btn btn-nav">Try Live Demo</a>
+                </div>
+                <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Mobile Navigation Drawer -->
+        <div class="mobile-nav-drawer" id="mobile-drawer">
+            <nav class="mobile-nav-links">
+                <a href="#features" class="mobile-drawer-link">Features</a>
+                <a href="#demo" class="mobile-drawer-link">Interactive Demo</a>
+                <a href="#pricing" class="mobile-drawer-link">Pricing</a>
+                <a href="https://github.com/vmothee/Project_ADAMUS" target="_blank" class="git-link mobile-drawer-link">GitHub</a>
+                <div class="drawer-divider"></div>
+                <a href="login.html#customer" class="drawer-login-link mobile-drawer-link">Customer Login</a>
+                <a href="login.html#employee" class="drawer-login-link mobile-drawer-link">Employee Login</a>
+            </nav>
+        </div>
+
+        <!-- Header Cover Banner -->
+        <div class="header-cover-banner container">
+            <div class="cover-image-wrapper glass-panel">
+                <img src="cover1.png" alt="ADAMUS Funnel" class="cover-image active">
+                <img src="cover2.png" alt="ADAMUS Outreach" class="cover-image">
+                <img src="cover3.png" alt="ADAMUS SEO" class="cover-image">
+                <div class="cover-overlay"></div>
+            </div>
+        </div>
+        <section class="hero-section">
+            <div class="container hero-container">
+                <div class="announcement-badge">
+                    <span class="badge-dot pulse-blue"></span>
+                    <span class="badge-text">Announcing ADAMUS Engine v2.0</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Automate your <span class="gradient-text">digital marketing</span> with absolute precision.
+                </h1>
+                
+                <p class="hero-subtitle">
+                    ADAMUS is a high-performance marketing automation hub. Orchestrate complex conversion funnels, target precise audience segments, and run viral outreach campaigns at microsecond speed.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#demo" class="btn btn-primary btn-glow">Get Started Free</a>
+                    <a href="#features" class="btn btn-secondary">Explore Features</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Showcase Section -->
+        <section id="demo" class="demo-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Interactive Demo</span>
+                    <h2>See ADAMUS in Action</h2>
+                    <p class="section-description">Select an automated marketing pipeline below and watch the simulation orchestrate live campaign logs, outreach queues, and conversion telemetry.</p>
+                </div>
+
+                <div class="showcase-card glass-panel">
+                    <!-- Sidebar controller inside widget -->
+                    <div class="showcase-sidebar">
+                        <h3>Marketing Pipelines</h3>
+                        <div class="pipeline-list">
+                            <button class="pipeline-btn active" data-pipeline="data-proc" id="btn-pipeline-data">
+                                <span class="num">01</span>
+                                <div class="btn-info">
+                                    <span class="title">Conversion Funnels</span>
+                                    <span class="desc">A/B tested path optimization</span>
+                                </div>
+                            </button>
+                            <button class="pipeline-btn" data-pipeline="ai-middleware" id="btn-pipeline-ai">
+                                <span class="num">02</span>
+                                <div class="btn-info">
+                                    <span class="title">AI Outreach Gateway</span>
+                                    <span class="desc">Outbox queue & sentiment analysis</span>
+                                </div>
+                            </button>
+                            <button class="pipeline-btn" data-pipeline="api-sync" id="btn-pipeline-sync">
+                                <span class="num">03</span>
+                                <div class="btn-info">
+                                    <span class="title">Target Audience Sync</span>
+                                    <span class="desc">Postgres list sync & tag filtering</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Console/Visualization inside widget -->
+                    <div class="showcase-content">
+                        <div class="console-header">
+                            <div class="console-controls">
+                                <span class="control-dot dot-red"></span>
+                                <span class="control-dot dot-yellow"></span>
+                                <span class="control-dot dot-green"></span>
+                            </div>
+                            <span class="console-title" id="console-title-label">Conversion Funnels Terminal Logs</span>
+                            <span class="console-status">SIMULATOR ACTIVE</span>
+                        </div>
+                        <div class="console-body" id="showcase-console">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid Section -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Enterprise Scale</span>
+                    <h2>Engineered for Growth</h2>
+                    <p class="section-description">Deploy sophisticated marketing routines with industrial-strength technology.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card glass-panel">
+                        <div class="feature-icon bg-cyan">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                        </div>
+                        <h3>Automated Funnels</h3>
+                        <p>Construct dynamic landing paths, trigger smart email flows based on client behaviors, and optimize sales conversions automatically.</p>
+                    </div>
+
+                    <div class="feature-card glass-panel">
+                        <div class="feature-icon bg-purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <h3>AI Outreach Engine</h3>
+                        <p>Generate highly personalized social media sequences and copy drafts utilizing fine-tuned neural models for higher click-through rates.</p>
+                    </div>
+
+                    <div class="feature-card glass-panel">
+                        <div class="feature-icon bg-emerald">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
+                            </svg>
+                        </div>
+                        <h3>Precision Analytics</h3>
+                        <p>Real-time visual telemetry tracks client clicks, email opens, post engagement rates, and return on investment (ROI) changes instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Pricing Calculator Section -->
+        <section id="pricing" class="pricing-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Flexible Plans</span>
+                    <h2>Scale as you grow</h2>
+                    <p class="section-description">Calculate your estimated monthly request limits and find the optimal subscription plan.</p>
+                </div>
+
+                <div class="pricing-calculator-card glass-panel">
+                    <div class="calc-inputs">
+                        <h3>Volume Estimation</h3>
+                        <div class="range-group">
+                            <label for="price-range">No of Posts</label>
+                            <input type="range" id="price-range" min="1" max="10000" step="1" value="150">
+                            <div class="slider-labels">
+                                <span class="requests-count" id="calc-requests-lbl">150 no of posts</span>
+                            </div>
+                        </div>
+                        <div class="calc-spokesperson-box">
+                            <img src="spokesperson.png" alt="ADAMUS Marketing Agent" class="calc-spokesperson-img">
+                        </div>
+                    </div>
+                    
+                    <div class="calc-results">
+                        <div class="plan-badge" id="plan-tier-badge">Developer Tier</div>
+                        <div class="price-row">
+                            <span class="currency">₹</span>
+                            <span class="price-amount" id="calc-price-lbl">0</span>
+                            <span class="period">/ month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li id="feat-bandwidth">Up to 500 no of posts</li>
+                            <li id="feat-nodes">1 active outreach campaign</li>
+                            <li>A/B testing sequence templates</li>
+                            <li id="feat-support">Standard customer support</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-container">
+                <div class="footer-brand">
+                    <a href="#" class="brand-logo">
+                        <span class="logo-mark">▲</span>
+                        <span class="logo-name">ADAMUS</span>
+                    </a>
+                    <p class="footer-desc">Automated high-performance digital marketing platform.</p>
+                </div>
+                <div class="footer-bottom">
+                    <span class="copyright">© 2026 Project ADAMUS. Open-source under MIT License.</span>
+                    <span class="version">System Status: Serviced on Nginx 1.26.1</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="app.js?v=1.4"></script>
+</body>
+</html>
