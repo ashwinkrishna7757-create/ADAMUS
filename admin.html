@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAMUS - Control Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=1.7">
+    <script>
+        // Direct route guard to prevent unauthorised view
+        if (localStorage.getItem('session_role') !== 'admin') {
+            window.location.replace('login.html#employee');
+        }
+    </script>
+</head>
+<body class="login-body-layout">
+    <!-- Abstract gradient backgrounds -->
+    <div class="bg-glow bg-glow-primary"></div>
+    <div class="bg-glow bg-glow-secondary"></div>
+
+    <div class="container admin-dashboard-container">
+        
+        <!-- Header -->
+        <header class="glass-panel admin-header">
+            <div class="admin-title-group">
+                <h1>ADAMUS CONTROL CENTER</h1>
+                <p>SECURE NODE SEC_SYS_DSH_402 // OPERATOR: <span class="primary-text" id="admin-operator-name">admin</span></p>
+            </div>
+            <button class="admin-logout-btn" onclick="logoutSession()">TERMINATE SESSION</button>
+        </header>
+
+        <!-- Telemetry Indicators -->
+        <div class="telemetry-row">
+            <div class="glass-panel telemetry-card system-health">
+                <span class="telemetry-label">SYSTEM HEALTH</span>
+                <span class="telemetry-value">100.0%</span>
+                <div class="telemetry-subtext">
+                    <div class="pulse-indicator"></div> NODE STATUS ONLINE
+                </div>
+            </div>
+            <div class="glass-panel telemetry-card total-users">
+                <span class="telemetry-label">TOTAL LOGINS</span>
+                <span class="telemetry-value" id="telemetry-total-users">0</span>
+                <div class="telemetry-subtext">ACTIVE REGISTRY USER COUNT</div>
+            </div>
+            <div class="glass-panel telemetry-card">
+                <span class="telemetry-label">CAMPAIGN AGENTS</span>
+                <span class="telemetry-value">12 / 12</span>
+                <div class="telemetry-subtext">AI OUTREACH DAEMONS ACTIVE</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="admin-grid">
+            
+            <!-- Left panel: User Creation Form -->
+            <div class="glass-panel provision-form-box">
+                <h2>
+                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                    PROVISION NEW ACCESS KEY
+                </h2>
+                <form class="provision-form" id="create-user-form">
+                    <div class="form-group">
+                        <label class="form-label" for="new-username">Username</label>
+                        <input class="input-field" type="text" id="new-username" required placeholder="e.g. prakash_campaigns" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">Access Password</label>
+                        <input class="input-field" type="password" id="new-password" required placeholder="••••••••" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-role">System Role</label>
+                        <select class="input-field" id="new-role" style="background: rgba(10, 15, 12, 0.95); color: #fff; cursor: pointer;">
+                            <option value="Customer">Customer</option>
+                            <option value="Employee">Employee (Intranet)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn" style="margin-top: 10px;">GENERATE USER SYSTEM KEY</button>
+                </form>
+            </div>
+
+            <!-- Right panel: Access Control List -->
+            <div class="glass-panel registry-panel">
+                <h2>ACCESS CONTROL REGISTRY</h2>
+                <div class="table-wrapper">
+                    <table class="admin-table" id="registry-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Password</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registry-table-body">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const defaultUsers = [
+            { username: 'admin', role: 'Employee', created: '2026-07-15', status: 'Active', password: 'password123' },
+            { username: 'prakash_editor', role: 'Employee', created: '2026-07-16', status: 'Active', password: 'pass_prakash' },
+            { username: 'john_doe', role: 'Customer', created: '2026-07-17', status: 'Active', password: 'pass_john' }
+        ];
+
+        // Retrieve operator info
+        const operatorName = localStorage.getItem('session_user') || 'admin';
+        document.getElementById('admin-operator-name').innerText = operatorName;
+
+        // Load users from localStorage or seed defaults
+        function getUsers() {
+            let users = localStorage.getItem('user_registry');
+            if (!users) {
+                localStorage.setItem('user_registry', JSON.stringify(defaultUsers));
+                return defaultUsers;
+            }
+            try {
+                return JSON.parse(users);
+            } catch (e) {
+                return defaultUsers;
+            }
+        }
+
+        // Save users list to localStorage
+        function saveUsers(users) {
+            localStorage.setItem('user_registry', JSON.stringify(users));
+        }
+
+        // Render user table rows
+        function renderTable() {
+            const users = getUsers();
+            const tbody = document.getElementById('registry-table-body');
+            const totalCounter = document.getElementById('telemetry-total-users');
+            
+            tbody.innerHTML = '';
+            totalCounter.innerText = users.length;
+
+            users.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                
+                // Create role badge
+                const roleBadgeClass = user.role === 'Employee' ? 'badge-admin' : 'badge-user';
+                const roleText = user.role;
+
+                // Disable delete button for the primary admin account
+                const isPrimaryAdmin = user.username.toLowerCase() === 'admin';
+                const deleteButtonAttr = isPrimaryAdmin ? 'disabled title="Cannot delete master admin account"' : `onclick="deleteUser(${index})"`;
+
+                tr.innerHTML = `
+                    <td style="font-family: var(--font-mono); font-weight: 500;">${escapeHtml(user.username)}</td>
+                    <td><span class="badge ${roleBadgeClass}">${roleText}</span></td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span id="pwd-${index}" style="font-family: var(--font-mono); font-size: 12px; min-width: 80px; letter-spacing: 1px;">••••••••</span>
+                            <button class="action-btn-eye" onclick="togglePassword(${index})" title="Toggle Password Visibility">
+                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">${user.created}</td>
+                    <td><span class="badge badge-active">${user.status || 'Active'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="action-btn-delete" ${deleteButtonAttr}>
+                            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Toggle password visibility
+        window.togglePassword = function(index) {
+            const span = document.getElementById(`pwd-${index}`);
+            const users = getUsers();
+            const user = users[index];
+            if (span.innerText === '••••••••') {
+                span.innerText = user.password || 'password123';
+            } else {
+                span.innerText = '••••••••';
+            }
+        }
+
+        // Handle user addition
+        document.getElementById('create-user-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('new-username');
+            const passwordInput = document.getElementById('new-password');
+            const roleSelect = document.getElementById('new-role');
+
+            const username = usernameInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+            const role = roleSelect.value;
+
+            if (!username || !password) return;
+
+            const users = getUsers();
+
+            // Check uniqueness
+            const exists = users.some(u => u.username.toLowerCase() === username);
+            if (exists) {
+                alert(`Error: A user with the username "${username}" already exists.`);
+                return;
+            }
+
+            // Get current date formatted YYYY-MM-DD
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+
+            // Add new user
+            users.push({
+                username: username,
+                role: role,
+                created: dateStr,
+                status: 'Active',
+                password: password
+            });
+
+            saveUsers(users);
+            renderTable();
+
+            // Clear inputs
+            usernameInput.value = '';
+            passwordInput.value = '';
+        });
+
+        // Delete user row
+        window.deleteUser = function(index) {
+            const users = getUsers();
+            const userToDelete = users[index];
+            
+            if (userToDelete && userToDelete.username.toLowerCase() === 'admin') {
+                alert("Master admin credentials cannot be removed.");
+                return;
+            }
+
+            if (confirm(`Are you sure you want to remove access credentials for "${userToDelete.username}"?`)) {
+                users.splice(index, 1);
+                saveUsers(users);
+                renderTable();
+            }
+        }
+
+        // Escape HTML tags to prevent XSS
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+
+        // Terminate session
+        window.logoutSession = function() {
+            localStorage.removeItem('session_role');
+            localStorage.removeItem('session_user');
+            window.location.replace('login.html#employee');
+        }
+
+        // Initialize table on load
+        renderTable();
+    </script>
+</body>
+</html>

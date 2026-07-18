@@ -1411,5 +1411,322 @@ body {
     color: var(--text-muted);
 }
 
+/* ==========================================
+   Admin Dashboard Layout
+   ========================================== */
+
+.admin-dashboard-container {
+    padding-top: 100px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    margin-bottom: 12px;
+}
+
+.admin-title-group h1 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.admin-title-group p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.admin-logout-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 8px 16px;
+    background: rgba(255, 70, 70, 0.05);
+    border: 1px solid rgba(255, 70, 70, 0.3);
+    color: #ff5555;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-logout-btn:hover {
+    background: rgba(255, 70, 70, 0.15);
+    border-color: #ff5555;
+    box-shadow: 0 0 10px rgba(255, 70, 70, 0.2);
+}
+
+/* Telemetry Widgets */
+.telemetry-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.telemetry-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.telemetry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--primary);
+}
+
+.telemetry-card.system-health::before {
+    background: #00ff66;
+}
+
+.telemetry-card.total-users::before {
+    background: var(--secondary);
+}
+
+.telemetry-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.telemetry-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-light);
+}
+
+.telemetry-subtext {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pulse-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ff66;
+    box-shadow: 0 0 6px #00ff66;
+    animation: alert-pulse 1.5s infinite alternate;
+}
+
+/* Grid Layout */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Form Panel */
+.provision-form-box {
+    padding: 24px;
+}
+
+.provision-form-box h2 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.provision-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* User Table */
+.registry-panel {
+    padding: 24px;
+    min-height: 400px;
+}
+
+.registry-panel h2 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.admin-table th {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    letter-spacing: 0.5px;
+}
+
+.admin-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    vertical-align: middle;
+    color: var(--text-light);
+}
+
+.admin-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Badges */
+.badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.badge-active {
+    background: rgba(0, 255, 102, 0.1);
+    border: 1px solid rgba(0, 255, 102, 0.2);
+    color: #00ff66;
+}
+
+.badge-inactive {
+    background: rgba(255, 70, 70, 0.1);
+    border: 1px solid rgba(255, 70, 70, 0.2);
+    color: #ff5555;
+}
+
+.badge-admin {
+    background: rgba(0, 140, 255, 0.1);
+    border: 1px solid rgba(0, 140, 255, 0.2);
+    color: #008cff;
+}
+
+.badge-user {
+    background: rgba(0, 255, 70, 0.1);
+    border: 1px solid rgba(0, 255, 70, 0.2);
+    color: var(--primary);
+}
+
+/* Action buttons in Table */
+.action-btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn-delete:hover:not(:disabled) {
+    color: #ff5555;
+    background: rgba(255, 70, 70, 0.1);
+}
+
+.action-btn-delete:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.action-btn-eye {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn-eye:hover {
+    color: var(--primary);
+    background: rgba(0, 255, 70, 0.1);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Lockdown Active State Override */
+body.lockdown-active {
+    --primary: #ff3333;
+    --primary-glow: rgba(255, 51, 51, 0.2);
+    --secondary: #ff5555;
+    --secondary-glow: rgba(255, 85, 85, 0.2);
+    transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+body.lockdown-active .submit-btn {
+    background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
+    box-shadow: 0 0 15px rgba(255, 51, 51, 0.35);
+    border-color: rgba(255, 51, 51, 0.5);
+    color: #fff;
+}
+
+body.lockdown-active .glass-panel {
+    border-color: rgba(255, 51, 51, 0.15);
+    box-shadow: 0 8px 32px rgba(255, 51, 51, 0.05);
+    transition: all 0.8s ease;
+}
+
+body.lockdown-active .console-box {
+    border-color: rgba(255, 51, 51, 0.3);
+    box-shadow: 0 0 20px rgba(255, 51, 51, 0.1);
+    transition: all 0.8s ease;
+}
+
 
 

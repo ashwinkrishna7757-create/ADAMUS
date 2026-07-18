@@ -97,6 +97,8 @@
             const btnSubmitLogin = document.getElementById('btn-submit-login');
 
             let currentMode = 'customer'; // Default mode
+            let loginAttemptsLeft = 3;
+            let isLocked = false;
 
             // Switch layout based on selected portal mode
             function setPortalMode(mode) {
@@ -143,23 +145,82 @@
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
 
+                if (isLocked) return;
+
+                const usernameVal = document.getElementById('username').value.trim();
+                const passwordVal = document.getElementById('password').value;
+                const mfaVal = mfaToken.value.trim();
+
+                // Clear previous terminal content
+                authTerminalBody.innerHTML = '';
+
                 // Start Console Terminal Transition
                 loginForm.style.display = 'none';
                 authTerminal.classList.add('active');
 
-                // Output Steps
-                const steps = [
-                    { text: '[system] Encrypting portal credentials...', type: 'info' },
-                    { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
-                    { text: `[auth] Verifying keys against active ${currentMode.toUpperCase()} security group...`, type: 'hl' },
-                    ...(currentMode === 'employee' ? [
-                        { text: '[auth] Checking Multi-Factor Authentication token signature... PASS', type: 'success' }
-                    ] : []),
-                    { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
-                    { text: '[system] Allocating local campaign sandbox storage blocks...', type: 'info' },
-                    { text: '[system] Authorization SUCCESS.', type: 'success' },
-                    { text: `[system] Opening session. Welcome back, ${document.getElementById('username').value || 'User'}!`, type: 'success' }
-                ];
+                let steps = [];
+                let isSuccess = false;
+                let redirectUrl = 'index.html';
+
+                if (currentMode === 'employee') {
+                    if (usernameVal === 'admin' && passwordVal === 'password123' && mfaVal === '123456') {
+                        isSuccess = true;
+                        redirectUrl = 'admin.html';
+                        localStorage.setItem('session_role', 'admin');
+                        localStorage.setItem('session_user', 'admin');
+                        loginAttemptsLeft = 3; // Reset on success
+
+                        steps = [
+                            { text: '[system] Encrypting portal credentials...', type: 'info' },
+                            { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                            { text: '[auth] Verifying keys against active EMPLOYEE security group...', type: 'hl' },
+                            { text: '[auth] Checking Multi-Factor Authentication token signature... PASS', type: 'success' },
+                            { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
+                            { text: '[system] Allocating local console storage blocks...', type: 'info' },
+                            { text: '[system] Session Authorization SUCCESS.', type: 'success' },
+                            { text: '[system] Opening network operations console. Welcome, Admin!', type: 'success' }
+                        ];
+                    } else {
+                        isSuccess = false;
+                        loginAttemptsLeft--;
+
+                        if (loginAttemptsLeft > 0) {
+                            steps = [
+                                { text: '[system] Encrypting portal credentials...', type: 'info' },
+                                { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                                { text: '[auth] Verifying keys against active EMPLOYEE security group...', type: 'hl' },
+                                { text: `[auth] Password or credentials incorrect. Only ${loginAttemptsLeft} attempts left.`, type: 'warn' },
+                                { text: '[auth] Rejecting credentials signature... ACCESS DENIED.', type: 'warn' },
+                                { text: '[system] Resetting local connection pipeline...', type: 'info' }
+                            ];
+                        } else {
+                            steps = [
+                                { text: '[system] Encrypting portal credentials...', type: 'info' },
+                                { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                                { text: '[auth] Verifying keys against active EMPLOYEE security group...', type: 'hl' },
+                                { text: '[auth] Critical warning: Security signature verification failed 3 times.', type: 'warn' },
+                                { text: '[system] SECURITY LOCKOUT TRIGGERED. CONNECTION MUTED.', type: 'warn' },
+                                { text: '[system] Portal locked for 15 seconds to prevent brute force attacks...', type: 'info' }
+                            ];
+                        }
+                    }
+                } else {
+                    // Customer login (allows any input)
+                    isSuccess = true;
+                    redirectUrl = 'index.html';
+                    localStorage.setItem('session_role', 'customer');
+                    localStorage.setItem('session_user', usernameVal || 'Customer');
+
+                    steps = [
+                        { text: '[system] Encrypting portal credentials...', type: 'info' },
+                        { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                        { text: '[auth] Verifying keys against active CUSTOMER security group...', type: 'hl' },
+                        { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
+                        { text: '[system] Allocating local campaign sandbox storage blocks...', type: 'info' },
+                        { text: '[system] Authorization SUCCESS.', type: 'success' },
+                        { text: `[system] Opening session. Welcome back, ${usernameVal}!`, type: 'success' }
+                    ];
+                }
 
                 let delayAccumulator = 0;
                 steps.forEach((step, index) => {
@@ -172,15 +233,46 @@
                         authTerminalBody.appendChild(line);
                         authTerminalBody.scrollTop = authTerminalBody.scrollHeight;
 
-                        // Redirect back to landing page on complete
                         if (index === steps.length - 1) {
                             setTimeout(() => {
-                                window.location.href = 'index.html';
+                                if (isSuccess) {
+                                    window.location.href = redirectUrl;
+                                } else {
+                                    // Reset form and show login inputs again
+                                    authTerminal.classList.remove('active');
+                                    loginForm.style.display = 'flex';
+                                    document.getElementById('password').value = '';
+                                    if (mfaToken) mfaToken.value = '';
+
+                                    if (loginAttemptsLeft === 0) {
+                                        // Activate 15-second lockdown
+                                        isLocked = true;
+                                        document.body.classList.add('lockdown-active');
+                                        btnSubmitLogin.disabled = true;
+                                        let countdown = 15;
+                                        const originalText = btnSubmitLogin.innerText;
+                                        btnSubmitLogin.innerText = `LOCKDOWN ACTIVE (${countdown}s)`;
+                                        
+                                        const interval = setInterval(() => {
+                                            countdown--;
+                                            if (countdown > 0) {
+                                                btnSubmitLogin.innerText = `LOCKDOWN ACTIVE (${countdown}s)`;
+                                            } else {
+                                                clearInterval(interval);
+                                                document.body.classList.remove('lockdown-active');
+                                                btnSubmitLogin.disabled = false;
+                                                btnSubmitLogin.innerText = originalText;
+                                                isLocked = false;
+                                                loginAttemptsLeft = 3;
+                                            }
+                                        }, 1000);
+                                    }
+                                }
                             }, 1500);
                         }
                     }, delayAccumulator);
                     
-                    delayAccumulator += (index === 1 || index === 2) ? 1000 : 500;
+                    delayAccumulator += (index === 1 || index === 2) ? 800 : 400;
                 });
             });
         });
