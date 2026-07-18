@@ -1728,5 +1728,179 @@ body.lockdown-active .console-box {
     transition: all 0.8s ease;
 }
 
+/* ==========================================
+   Admin Modal Wizard Styling
+   ========================================== */
+
+.admin-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.admin-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.admin-modal-content {
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.admin-modal-content h2 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.modal-form-grid .full-width {
+    grid-column: span 2;
+}
+
+.modal-action-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.btn-cancel {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--text-light);
+}
+
+/* ==========================================
+   Customer Dashboard Styling
+   ========================================== */
+
+.customer-dashboard-container {
+    padding-top: 100px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.badge-gold {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+}
+
+.badge-silver {
+    background: rgba(192, 192, 192, 0.1);
+    border: 1px solid rgba(192, 192, 192, 0.3);
+    color: #c0c0c0;
+}
+
+.badge-platinum {
+    background: rgba(0, 245, 255, 0.1);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    color: #00f5ff;
+    text-shadow: 0 0 5px rgba(0, 245, 255, 0.2);
+}
+
+.customer-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.customer-detail-item {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding-bottom: 8px;
+}
+
+.customer-detail-label {
+    width: 140px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.customer-detail-value {
+    flex-grow: 1;
+}
+
+.customer-social-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: text-shadow 0.2s ease;
+}
+
+.customer-social-link:hover {
+    text-shadow: 0 0 8px var(--primary-glow);
+}
+
+.customer-balance-box {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.customer-balance-value {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 0 15px var(--primary-glow);
+}
+
 
 

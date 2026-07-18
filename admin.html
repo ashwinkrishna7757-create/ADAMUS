@@ -109,11 +109,65 @@
 
     </div>
 
+    <!-- Provisioning Profile Details Modal -->
+    <div class="admin-modal-backdrop" id="profile-modal">
+        <div class="glass-panel admin-modal-content">
+            <h2>
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                USER ACCESS METADATA
+            </h2>
+            <form class="provision-form" id="profile-wizard-form">
+                <div class="modal-form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label" for="meta-fullname">Full Name</label>
+                        <input class="input-field" type="text" id="meta-fullname" required placeholder="e.g. Aswin Vignesh">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="meta-address">Physical Address</label>
+                        <input class="input-field" type="text" id="meta-address" required placeholder="e.g. 102 Neo City Sector 7">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="meta-mobile">Mobile Number</label>
+                        <input class="input-field" type="tel" id="meta-mobile" required placeholder="e.g. +91 9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="meta-balance">Starting Balance (₹)</label>
+                        <input class="input-field" type="number" id="meta-balance" required min="0" value="5000" placeholder="5000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="meta-instagram">Instagram ID</label>
+                        <input class="input-field" type="text" id="meta-instagram" placeholder="e.g. aswin_vk">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="meta-facebook">Facebook ID</label>
+                        <input class="input-field" type="text" id="meta-facebook" placeholder="e.g. aswin.vignesh">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="meta-plan">Subscription Tier</label>
+                        <select class="input-field" id="meta-plan" style="background: rgba(10, 15, 12, 0.95); color: #fff; cursor: pointer;">
+                            <option value="Gold">Gold Tier</option>
+                            <option value="Silver" selected>Silver Tier</option>
+                            <option value="Platinum">Platinum Tier</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-action-row">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">CANCEL</button>
+                    <button type="submit" class="submit-btn" style="margin-top: 0; width: auto; padding: 10px 24px;">PROVISION KEY</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
+        let tempNewUserData = null;
+
         const defaultUsers = [
-            { username: 'admin', role: 'Employee', created: '2026-07-15', status: 'Active', password: 'password123' },
-            { username: 'prakash_editor', role: 'Employee', created: '2026-07-16', status: 'Active', password: 'pass_prakash' },
-            { username: 'john_doe', role: 'Customer', created: '2026-07-17', status: 'Active', password: 'pass_john' }
+            { username: 'admin', role: 'Employee', created: '2026-07-15', status: 'Active', password: 'password123', fullname: 'System Admin Node', address: 'Mainframe Server Rack A', mobile: '+1 800 555 0199', instagram: 'adamus_ai', facebook: 'adamus.tech', plan: 'Platinum', balance: 999999 },
+            { username: 'prakash_editor', role: 'Employee', created: '2026-07-16', status: 'Active', password: 'pass_prakash', fullname: 'Prakash Campaign Specialist', address: 'Operations Desk 4', mobile: '+91 99999 88888', instagram: 'prakash_campaigns', facebook: 'prakash.editor', plan: 'Gold', balance: 12500 },
+            { username: 'john_doe', role: 'Customer', created: '2026-07-17', status: 'Active', password: 'pass_john', fullname: 'John Doe', address: '456 Cyber Street Apt 9', mobile: '+1 415 555 2671', instagram: 'johndoe_web', facebook: 'johndoe.social', plan: 'Silver', balance: 5000 }
         ];
 
         // Retrieve operator info
@@ -221,26 +275,63 @@
                 return;
             }
 
+            // Save credentials to temp variables
+            tempNewUserData = { username, password, role };
+
+            // Open Modal
+            document.getElementById('profile-modal').classList.add('active');
+        });
+
+        // Handle Profile Wizard Form Submit
+        document.getElementById('profile-wizard-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!tempNewUserData) return;
+
+            const fullname = document.getElementById('meta-fullname').value.trim();
+            const address = document.getElementById('meta-address').value.trim();
+            const mobile = document.getElementById('meta-mobile').value.trim();
+            const instagram = document.getElementById('meta-instagram').value.trim() || 'N/A';
+            const facebook = document.getElementById('meta-facebook').value.trim() || 'N/A';
+            const plan = document.getElementById('meta-plan').value;
+            const balance = document.getElementById('meta-balance').value;
+
+            const users = getUsers();
+
             // Get current date formatted YYYY-MM-DD
             const today = new Date();
             const dateStr = today.toISOString().split('T')[0];
 
-            // Add new user
+            // Add new user with metadata
             users.push({
-                username: username,
-                role: role,
+                username: tempNewUserData.username,
+                role: tempNewUserData.role,
                 created: dateStr,
                 status: 'Active',
-                password: password
+                password: tempNewUserData.password,
+                fullname: fullname,
+                address: address,
+                mobile: mobile,
+                instagram: instagram,
+                facebook: facebook,
+                plan: plan,
+                balance: parseFloat(balance) || 0
             });
 
             saveUsers(users);
             renderTable();
 
-            // Clear inputs
-            usernameInput.value = '';
-            passwordInput.value = '';
+            // Clear inputs and close modal
+            document.getElementById('new-username').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('profile-wizard-form').reset();
+            closeModal();
         });
+
+        // Close modal
+        window.closeModal = function() {
+            document.getElementById('profile-modal').classList.remove('active');
+            tempNewUserData = null;
+        }
 
         // Delete user row
         window.deleteUser = function(index) {

@@ -96,6 +96,25 @@
             const authTerminalBody = document.getElementById('auth-terminal-body');
             const btnSubmitLogin = document.getElementById('btn-submit-login');
 
+            const defaultUsers = [
+                { username: 'admin', role: 'Employee', created: '2026-07-15', status: 'Active', password: 'password123', fullname: 'System Admin Node', address: 'Mainframe Server Rack A', mobile: '+1 800 555 0199', instagram: 'adamus_ai', facebook: 'adamus.tech', plan: 'Platinum', balance: 999999 },
+                { username: 'prakash_editor', role: 'Employee', created: '2026-07-16', status: 'Active', password: 'pass_prakash', fullname: 'Prakash Campaign Specialist', address: 'Operations Desk 4', mobile: '+91 99999 88888', instagram: 'prakash_campaigns', facebook: 'prakash.editor', plan: 'Gold', balance: 12500 },
+                { username: 'john_doe', role: 'Customer', created: '2026-07-17', status: 'Active', password: 'pass_john', fullname: 'John Doe', address: '456 Cyber Street Apt 9', mobile: '+1 415 555 2671', instagram: 'johndoe_web', facebook: 'johndoe.social', plan: 'Silver', balance: 5000 }
+            ];
+
+            function getUsers() {
+                let users = localStorage.getItem('user_registry');
+                if (!users) {
+                    localStorage.setItem('user_registry', JSON.stringify(defaultUsers));
+                    return defaultUsers;
+                }
+                try {
+                    return JSON.parse(users);
+                } catch (e) {
+                    return defaultUsers;
+                }
+            }
+
             let currentMode = 'customer'; // Default mode
             let loginAttemptsLeft = 3;
             let isLocked = false;
@@ -162,12 +181,17 @@
                 let isSuccess = false;
                 let redirectUrl = 'index.html';
 
+                const usersList = getUsers();
+
                 if (currentMode === 'employee') {
-                    if (usernameVal === 'admin' && passwordVal === 'password123' && mfaVal === '123456') {
+                    const matchedEmployee = usersList.find(u => u.username.toLowerCase() === usernameVal.toLowerCase() && u.password === passwordVal && u.role === 'Employee');
+                    const isMasterAdmin = usernameVal === 'admin' && passwordVal === 'password123' && mfaVal === '123456';
+
+                    if (isMasterAdmin || matchedEmployee) {
                         isSuccess = true;
                         redirectUrl = 'admin.html';
                         localStorage.setItem('session_role', 'admin');
-                        localStorage.setItem('session_user', 'admin');
+                        localStorage.setItem('session_user', isMasterAdmin ? 'admin' : matchedEmployee.username);
                         loginAttemptsLeft = 3; // Reset on success
 
                         steps = [
@@ -178,7 +202,7 @@
                             { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
                             { text: '[system] Allocating local console storage blocks...', type: 'info' },
                             { text: '[system] Session Authorization SUCCESS.', type: 'success' },
-                            { text: '[system] Opening network operations console. Welcome, Admin!', type: 'success' }
+                            { text: `[system] Opening network operations console. Welcome, ${isMasterAdmin ? 'Admin' : (matchedEmployee.fullname || matchedEmployee.username)}!`, type: 'success' }
                         ];
                     } else {
                         isSuccess = false;
@@ -205,21 +229,49 @@
                         }
                     }
                 } else {
-                    // Customer login (allows any input)
-                    isSuccess = true;
-                    redirectUrl = 'index.html';
-                    localStorage.setItem('session_role', 'customer');
-                    localStorage.setItem('session_user', usernameVal || 'Customer');
+                    // Customer login validation
+                    const matchedCustomer = usersList.find(u => u.username.toLowerCase() === usernameVal.toLowerCase() && u.password === passwordVal && u.role === 'Customer');
 
-                    steps = [
-                        { text: '[system] Encrypting portal credentials...', type: 'info' },
-                        { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
-                        { text: '[auth] Verifying keys against active CUSTOMER security group...', type: 'hl' },
-                        { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
-                        { text: '[system] Allocating local campaign sandbox storage blocks...', type: 'info' },
-                        { text: '[system] Authorization SUCCESS.', type: 'success' },
-                        { text: `[system] Opening session. Welcome back, ${usernameVal}!`, type: 'success' }
-                    ];
+                    if (matchedCustomer) {
+                        isSuccess = true;
+                        redirectUrl = 'customer.html';
+                        localStorage.setItem('session_role', 'customer');
+                        localStorage.setItem('session_user', matchedCustomer.username);
+                        loginAttemptsLeft = 3; // Reset on success
+
+                        steps = [
+                            { text: '[system] Encrypting portal credentials...', type: 'info' },
+                            { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                            { text: '[auth] Verifying keys against active CUSTOMER security group...', type: 'hl' },
+                            { text: '[auth] Decrypting keys... Credentials MATCH.', type: 'success' },
+                            { text: '[system] Allocating local campaign sandbox storage blocks...', type: 'info' },
+                            { text: '[system] Authorization SUCCESS.', type: 'success' },
+                            { text: `[system] Opening session. Welcome back, ${matchedCustomer.fullname || usernameVal}!`, type: 'success' }
+                        ];
+                    } else {
+                        isSuccess = false;
+                        loginAttemptsLeft--;
+
+                        if (loginAttemptsLeft > 0) {
+                            steps = [
+                                { text: '[system] Encrypting portal credentials...', type: 'info' },
+                                { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                                { text: '[auth] Verifying keys against active CUSTOMER security group...', type: 'hl' },
+                                { text: `[auth] Password or credentials incorrect. Only ${loginAttemptsLeft} attempts left.`, type: 'warn' },
+                                { text: '[auth] Rejecting credentials signature... ACCESS DENIED.', type: 'warn' },
+                                { text: '[system] Resetting local connection pipeline...', type: 'info' }
+                            ];
+                        } else {
+                            steps = [
+                                { text: '[system] Encrypting portal credentials...', type: 'info' },
+                                { text: '[system] Establishing secure token handshake with authentication nodes...', type: 'info' },
+                                { text: '[auth] Verifying keys against active CUSTOMER security group...', type: 'hl' },
+                                { text: '[auth] Critical warning: Security signature verification failed 3 times.', type: 'warn' },
+                                { text: '[system] SECURITY LOCKOUT TRIGGERED. CONNECTION MUTED.', type: 'warn' },
+                                { text: '[system] Portal locked for 15 seconds to prevent brute force attacks...', type: 'info' }
+                            ];
+                        }
+                    }
                 }
 
                 let delayAccumulator = 0;
