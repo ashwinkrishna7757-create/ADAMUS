@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const planTierBadge = document.getElementById('plan-tier-badge');
     const calcPriceLbl = document.getElementById('calc-price-lbl');
     
+    // Config configurator option cards
+    const configCards = document.querySelectorAll('.config-card');
+    
     // Feature list items
     const featBandwidth = document.getElementById('feat-bandwidth');
     const featNodes = document.getElementById('feat-nodes');
@@ -132,24 +135,38 @@ document.addEventListener('DOMContentLoaded', () => {
         // Format number with commas
         const formattedRequests = val.toLocaleString();
         if (calcRequestsLbl) {
-            calcRequestsLbl.textContent = `${formattedRequests} no of posts`;
+            calcRequestsLbl.textContent = `${formattedRequests} Posts`;
         }
 
-        let tierName = 'Starter Tier';
-        let bandwidth = 'Up to 500 no of posts';
+        let tierName = 'Starter Plan';
+        let bandwidth = 'Up to 500 Posts';
         let nodes = '1 active outreach campaign';
         let support = 'Standard customer support';
 
-        if (val > 500 && val <= 5000) {
-            tierName = 'Growth Tier';
-            bandwidth = 'Up to 5,000 no of posts';
+        // Update active selection of configurator cards based on slider values
+        configCards.forEach(c => c.classList.remove('active'));
+
+        if (val <= 150) {
+            tierName = 'Starter Plan';
+            bandwidth = 'Up to 500 Posts';
+            nodes = '1 active outreach campaign';
+            support = 'Standard customer support';
+            const card = document.getElementById('tier-card-starter');
+            if (card) card.classList.add('active');
+        } else if (val > 150 && val <= 375) {
+            tierName = 'Growth Plan';
+            bandwidth = 'Up to 1,200 Posts';
             nodes = '5 active outreach campaigns';
             support = 'Standard email support';
-        } else if (val > 5000) {
-            tierName = 'Scale Tier';
-            bandwidth = 'Up to 10,000 no of posts';
+            const card = document.getElementById('tier-card-growth');
+            if (card) card.classList.add('active');
+        } else {
+            tierName = 'Scale Plan';
+            bandwidth = 'Up to 5,000 Posts';
             nodes = 'Unlimited active campaigns';
             support = '24/7 dedicated account manager';
+            const card = document.getElementById('tier-card-scale');
+            if (card) card.classList.add('active');
         }
 
         const cost = Math.round((val / 150) * 9999);
@@ -165,22 +182,35 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dynamically style based on plan
         if (planTierBadge) {
             if (tierName === 'Starter Tier') {
-                planTierBadge.style.borderColor = 'var(--cyan)';
-                planTierBadge.style.background = 'var(--cyan-glow)';
-            } else if (tierName === 'Growth Tier') {
                 planTierBadge.style.borderColor = 'var(--primary)';
                 planTierBadge.style.background = 'var(--primary-glow)';
-            } else {
+            } else if (tierName === 'Growth Tier') {
                 planTierBadge.style.borderColor = 'var(--secondary)';
                 planTierBadge.style.background = 'var(--secondary-glow)';
+            } else {
+                planTierBadge.style.borderColor = 'var(--primary)';
+                planTierBadge.style.background = 'var(--primary-glow)';
             }
         }
     }
 
     if (priceRange) {
         priceRange.addEventListener('input', updatePricing);
-        updatePricing(); // Run once initially
     }
+
+    // Set click handlers for Spec selector cards
+    configCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const volume = parseInt(card.getAttribute('data-volume'));
+            if (priceRange) {
+                priceRange.value = volume;
+                updatePricing();
+            }
+        });
+    });
+
+    // Run once initially
+    updatePricing();
 
     // ------------------------------------------------
     // 3. Sliding Cover Picture Slideshow

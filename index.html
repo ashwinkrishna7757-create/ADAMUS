@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADAMUS - Next Gen Local Applications</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=stardom@400&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.8">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
     <!-- Abstract gradient backgrounds -->
     <div class="bg-glow bg-glow-primary"></div>
     <div class="bg-glow bg-glow-secondary"></div>
-    <div class="bg-grid-overlay"></div>
 
     <div class="app-wrapper">
         <!-- Navigation Header -->
@@ -32,8 +32,8 @@
                 <div class="nav-actions">
                     <a href="login.html#customer" class="nav-login-link">Customer Login</a>
                     <span class="nav-divider">|</span>
-                    <a href="login.html#employee" class="nav-login-link">Employee Login</a>
-                    <a href="#demo" class="btn btn-nav">Try Live Demo</a>
+                    <a href="login.html#employee" class="nav-login-link">Employee Intranet</a>
+                    <a href="#demo" class="btn btn-primary btn-nav">Try Live Demo</a>
                 </div>
                 <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
                     <span class="bar"></span>
@@ -56,32 +56,34 @@
             </nav>
         </div>
 
-        <!-- Header Cover Banner -->
-        <div class="header-cover-banner container">
-            <div class="cover-image-wrapper glass-panel">
-                <img src="cover1.png" alt="ADAMUS Funnel" class="cover-image active">
-                <img src="cover2.png" alt="ADAMUS Outreach" class="cover-image">
-                <img src="cover3.png?v=1.1" alt="ADAMUS SEO" class="cover-image">
+        <!-- Header Cover Banner (Full-Bleed Viewport Screen) -->
+        <div class="header-cover-banner">
+            <div class="cover-image-wrapper">
+                <img src="cover1.png?v=3.0" alt="ADAMUS Funnel" class="cover-image active">
+                <img src="cover2.png?v=3.0" alt="ADAMUS Outreach" class="cover-image">
+                <img src="cover3.png?v=3.0" alt="ADAMUS SEO" class="cover-image">
                 <div class="cover-overlay"></div>
             </div>
         </div>
+
+        <!-- Hero Section -->
         <section class="hero-section">
             <div class="container hero-container">
                 <div class="announcement-badge">
                     <span class="badge-dot pulse-blue"></span>
-                    <span class="badge-text">Announcing ADAMUS Engine v2.0</span>
+                    <span class="badge-text">Announcing ADAMUS Engine v3.0</span>
                 </div>
                 
                 <h1 class="hero-title">
-                    Automate your <span class="gradient-text">digital marketing</span> with absolute precision.
+                    ADAMUS.<br><span class="gradient-text">Marketing. Automate instantly.</span>
                 </h1>
                 
                 <p class="hero-subtitle">
-                    ADAMUS is a high-performance marketing automation hub. Orchestrate complex conversion funnels, target precise audience segments, and run viral outreach campaigns at microsecond speed.
+                    A high-performance digital marketing engine. Orchestrate complex conversion funnels, target precise audience segments, and run viral outreach campaigns at microsecond speed.
                 </p>
 
                 <div class="hero-actions">
-                    <a href="#demo" class="btn btn-primary btn-glow">Get Started Free</a>
+                    <a href="#demo" class="btn btn-primary">Get Started Free</a>
                     <a href="#features" class="btn btn-secondary">Explore Features</a>
                 </div>
             </div>
@@ -200,29 +202,52 @@
                 </div>
 
                 <div class="pricing-calculator-card glass-panel">
+                    <!-- Left Column: Presenter image -->
+                    <div class="calc-presenter-box">
+                        <img src="spokesperson.png?v=4.0" alt="ADAMUS Marketing Specialist" class="calc-presenter-img">
+                    </div>
+
+                    <!-- Middle Column: Inputs -->
                     <div class="calc-inputs">
                         <h3>Volume Estimation</h3>
-                        <div class="range-group">
-                            <label for="price-range">No of Posts</label>
-                            <input type="range" id="price-range" min="1" max="10000" step="1" value="150">
-                            <div class="slider-labels">
-                                <span class="requests-count" id="calc-requests-lbl">150 no of posts</span>
+                        
+                        <!-- Apple Configurator Options grid layout -->
+                        <div class="configurator-options-grid">
+                            <div class="config-card active" data-volume="150" id="tier-card-starter">
+                                <span class="tier-name">Starter Plan</span>
+                                <span class="tier-volume">150 Posts</span>
+                                <span class="tier-desc">Standard Campaign</span>
+                            </div>
+                            <div class="config-card" data-volume="375" id="tier-card-growth">
+                                <span class="tier-name">Growth Plan</span>
+                                <span class="tier-volume">375 Posts</span>
+                                <span class="tier-desc">Advanced Delivery</span>
+                            </div>
+                            <div class="config-card" data-volume="1500" id="tier-card-scale">
+                                <span class="tier-name">Scale Plan</span>
+                                <span class="tier-volume">1,500 Posts</span>
+                                <span class="tier-desc">Enterprise Daemons</span>
                             </div>
                         </div>
-                        <div class="calc-spokesperson-box">
-                            <img src="spokesperson.png" alt="ADAMUS Marketing Agent" class="calc-spokesperson-img">
+
+                        <div class="range-group">
+                            <label for="price-range">Custom volume selector</label>
+                            <input type="range" id="price-range" min="1" max="10000" step="1" value="150">
+                            <div class="slider-labels">
+                                <span class="requests-count" id="calc-requests-lbl">150 Posts</span>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="calc-results">
-                        <div class="plan-badge" id="plan-tier-badge">Developer Tier</div>
+                        <div class="plan-badge" id="plan-tier-badge">Starter Plan</div>
                         <div class="price-row">
                             <span class="currency">₹</span>
                             <span class="price-amount" id="calc-price-lbl">0</span>
                             <span class="period">/ month</span>
                         </div>
                         <ul class="plan-features">
-                            <li id="feat-bandwidth">Up to 500 no of posts</li>
+                            <li id="feat-bandwidth">Up to 500 Posts</li>
                             <li id="feat-nodes">1 active outreach campaign</li>
                             <li>A/B testing sequence templates</li>
                             <li id="feat-support">Standard customer support</li>
@@ -250,7 +275,21 @@
             </div>
         </footer>
     </div>
+
+    <!-- Floating contact buttons (WhatsApp & Call) -->
+    <div class="floating-contact-container">
+        <a href="https://wa.me/919999988888" target="_blank" class="floating-btn wa-btn" aria-label="Chat on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.16 1.448 4.795 1.449 5.432 0 9.86-4.403 9.864-9.81.002-2.618-1.01-5.08-2.857-6.93C16.602 2.01 14.15 1.012 11.99 1.012c-5.448 0-9.89 4.417-9.893 9.835-.001 1.912.508 3.782 1.48 5.437L2.551 20.93l4.096-1.776zM18.254 14.92c-.342-.172-2.029-.998-2.34-.112c-.312.885-.885.666-.885.666s-.622-.244-1.398-.788c-.6-.423-1.127-.927-1.443-1.155-.316-.23-.07-.468.125-.703.11-.133.242-.29.362-.437.12-.145.19-.244.272-.405.082-.165.042-.31-.02-.447-.063-.137-.565-1.353-.772-1.854-.202-.488-.4-.424-.563-.43l-.48-.01c-.166 0-.435.06-.662.307-.228.247-.87.85-.87 2.074 0 1.222.89 2.404 1.01 2.567.12.163 1.748 2.668 4.233 3.738.59.254 1.05.405 1.41.52.595.19 1.138.163 1.567.1.478-.07 1.477-.6 1.68-1.18.205-.58.205-1.077.143-1.18c-.06-.1-.22-.17-.56-.34z"/>
+            </svg>
+        </a>
+        <a href="tel:+919999988888" class="floating-btn call-btn" aria-label="Call Support">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+        </a>
+    </div>
     
-    <script src="app.js?v=1.4"></script>
+    <script src="app.js?v=4.0"></script>
 </body>
 </html>
