@@ -38,8 +38,8 @@
     --console-bg: #000000;
     
     /* Typography */
-    --font-head: 'Stardom', -apple-system, BlinkMacSystemFont, "Segoe UI", serif;
-    --font-body: 'Stardom', -apple-system, BlinkMacSystemFont, "Segoe UI", serif;
+    --font-head: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --font-mono: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
     
     /* Animations & Transitions */
