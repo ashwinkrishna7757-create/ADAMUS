@@ -251,4 +251,54 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // ------------------------------------------------
+    // 5. Lead Signup Form & WhatsApp Automation (9840691132)
+    // ------------------------------------------------
+    const leadForm = document.getElementById('lead-quote-form');
+    const quoteModal = document.getElementById('quote-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    if (leadForm) {
+        leadForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('lead-name');
+            const phoneInput = document.getElementById('lead-phone');
+            const emailInput = document.getElementById('lead-email');
+
+            const name = nameInput ? nameInput.value.trim() : '';
+            const phone = phoneInput ? phoneInput.value.trim() : '';
+            const email = emailInput ? emailInput.value.trim() : '';
+
+            // Mandatory validation check
+            if (!name || !phone) {
+                alert('Please enter your Name and Phone Number (Mandatory fields).');
+                return;
+            }
+
+            // Show pop-up modal dialog
+            if (quoteModal) {
+                quoteModal.classList.add('active');
+            }
+
+            // Prepare WhatsApp message text for number 9840691132
+            const whatsappNumber = "919840691132";
+            const messageBody = `Hi ADAMUS Team! 👋%0AI would like to get a custom quote for my business.%0A%0A*Lead Details:*%0A• *Name:* ${encodeURIComponent(name)}%0A• *Phone:* ${encodeURIComponent(phone)}%0A• *Email:* ${encodeURIComponent(email || 'Not Provided')}%0A%0APlease contact me shortly with more details.`;
+            
+            const waUrl = `https://wa.me/${whatsappNumber}?text=${messageBody}`;
+
+            // Automatically open WhatsApp in new tab after 1.2 seconds so user reads modal
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 1200);
+        });
+    }
+
+    if (modalCloseBtn && quoteModal) {
+        modalCloseBtn.addEventListener('click', () => {
+            quoteModal.classList.remove('active');
+            if (leadForm) leadForm.reset();
+        });
+    }
 });

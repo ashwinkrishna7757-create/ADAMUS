@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>▲ ADAMUS Digital Marketing - 3-Page Business Brochure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #060913;
+            color: #f1f5f9;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 3-Page A4 Container (Each Page: 210mm x 297mm) */
+        .brochure-page {
+            width: 210mm;
+            height: 297mm;
+            page-break-after: always;
+            page-break-inside: avoid;
+            background: linear-gradient(135deg, #060913 0%, #0f172a 50%, #1e1b4b 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 15mm 15mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-bottom: 2px solid #1e293b;
+        }
+
+        /* Background Glows */
+        .bg-glow-gold {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .bg-glow-cyan {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Header & Brand Identity */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-mark {
+            font-size: 22px;
+            color: #f59e0b;
+            font-weight: 900;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .version-badge {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .page-tag {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Typography */
+        h1.hero-title {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            margin-top: 12px;
+        }
+
+        h2.section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .gradient-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #fef08a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-cyan {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* Hero Free Website Banner */
+        .hero-offer-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.3) 100%);
+            border: 1.5px solid #f59e0b;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 14px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-offer-text h3 {
+            font-size: 14px;
+            color: #fbbf24;
+            font-weight: 800;
+        }
+
+        .hero-offer-text p {
+            font-size: 11px;
+            color: #f1f5f9;
+            margin-top: 2px;
+        }
+
+        .hero-offer-badge {
+            background: #f59e0b;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Image Display */
+        .img-hero-frame {
+            width: 100%;
+            height: 105mm;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            object-fit: cover;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            margin: 10px 0;
+        }
+
+        /* Problem vs Solution Cards */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .card-box {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-box-danger {
+            border-left: 4px solid #ef4444;
+        }
+
+        .card-box-success {
+            border-left: 4px solid #10b981;
+        }
+
+        .card-box h4 {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-box p {
+            font-size: 10.5px;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        /* Packages Grid Layout (4 Packages 2x2 Grid) */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .package-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .package-card.popular {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(245, 158, 11, 0.1) 100%);
+        }
+
+        .package-card.elite {
+            border-color: #38bdf8;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(56, 189, 248, 0.1) 100%);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: -10px;
+            right: 14px;
+            background: #f59e0b;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 9.5px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .elite-tag {
+            position: absolute;
+            top: -10px;
+            right: 14px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 9.5px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .pack-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .pack-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #f59e0b;
+            margin: 4px 0 8px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .pack-price span {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .pack-features {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0;
+        }
+
+        .pack-features li {
+            font-size: 10.5px;
+            color: #e2e8f0;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            line-height: 1.35;
+        }
+
+        .pack-features li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: 800;
+        }
+
+        /* Layman Glossary Terms Block */
+        .layman-guide-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-top: 10px;
+        }
+
+        .layman-guide-box h4 {
+            font-size: 12px;
+            color: #38bdf8;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 10px;
+            color: #cbd5e1;
+        }
+
+        .glossary-item strong {
+            color: #ffffff;
+        }
+
+        /* Onboarding Timeline */
+        .timeline-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .step-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            background: #f59e0b;
+            color: #0f172a;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 4px auto;
+        }
+
+        .step-card h5 {
+            font-size: 10.5px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .step-card p {
+            font-size: 9px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* Footer & Contact CTA */
+        .cta-footer-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
+            border: 1.5px solid #f59e0b;
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .cta-info h3 {
+            font-size: 15px;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .cta-info p {
+            font-size: 11px;
+            color: #fbbf24;
+            margin-top: 3px;
+        }
+
+        .contact-pills {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: #f1f5f9;
+        }
+
+        .footer-bar {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9.5px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        @media print {
+            body { background: none; }
+            .brochure-page { border: none; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== PAGE 1: HERO COVER & VALUE PROPOSITION ==================== -->
+    <div class="brochure-page">
+        <div class="bg-glow-gold" style="top: -50px; right: -50px;"></div>
+        <div class="bg-glow-cyan" style="bottom: 100px; left: -50px;"></div>
+
+        <div>
+            <!-- Header -->
+            <div class="header-nav">
+                <div class="brand-logo">
+                    <span class="logo-mark">▲</span>
+                    <span class="logo-text">ADAMUS</span>
+                    <span class="version-badge">v3.0 Engine</span>
+                </div>
+                <div class="page-tag">Page 1 • Overview & Offer</div>
+            </div>
+
+            <!-- Hero Section -->
+            <h1 class="hero-title">
+                Scale Your Local Business.<br>
+                <span class="gradient-gold">Drive Daily Calls & WhatsApp Sales.</span>
+            </h1>
+            <p class="subtitle">
+                A high-performance digital marketing engine designed for local retail shops, clinics, services, and e-commerce brands. Get targeted customers online without high developer fees!
+            </p>
+
+            <!-- Free Website Launch Offer Banner -->
+            <div class="hero-offer-banner">
+                <div class="hero-offer-text">
+                    <h3>🎁 SPECIAL LAUNCH OFFER: 100% FREE Business Website</h3>
+                    <p>Included FREE with any ADAMUS Digital Marketing Package. Worth ₹25,000!</p>
+                </div>
+                <div class="hero-offer-badge">₹0 Setup Fee</div>
+            </div>
+
+            <!-- 3D Hero Visual -->
+            <img src="adamus_pamphlet_cover_3d_1789574774129.jpg" alt="ADAMUS 3D Dashboard" class="img-hero-frame">
+
+            <!-- Problem vs ADAMUS Solution -->
+            <div class="grid-2col">
+                <div class="card-box card-box-danger">
+                    <h4 style="color: #f87171;">⚠️ The Traditional Agency Trap</h4>
+                    <p>Agencies charge ₹30,000+ per month, web developers demand ₹25,000 upfront, and social media boosts fail to bring actual customer calls to your phone.</p>
+                </div>
+                <div class="card-box card-box-success">
+                    <h4 style="color: #34d399;">🚀 The ADAMUS Difference</h4>
+                    <p>Automated conversion funnels, daily social media posts, Meta ad campaigns, Google local SEO, and direct WhatsApp buyer routing with zero lock-in contracts.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>▲ ADAMUS Technologies • High-Performance Digital Marketing</span>
+            <span>www.adamus.io | +91 98765 43210</span>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 2: 4 PACKAGES & PRICING BREAKDOWN ==================== -->
+    <div class="brochure-page">
+        <div class="bg-glow-gold" style="bottom: -50px; right: -50px;"></div>
+
+        <div>
+            <!-- Header -->
+            <div class="header-nav">
+                <div class="brand-logo">
+                    <span class="logo-mark">▲</span>
+                    <span class="logo-text">ADAMUS</span>
+                </div>
+                <div class="page-tag">Page 2 • Growth Packages & Pricing</div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 10px;">
+                Transparent Marketing Packages <span class="gradient-gold">Built for Every Budget</span>
+            </h2>
+            <p class="subtitle">Choose the growth plan tailored to your business. No hidden setup fees or maintenance surprises.</p>
+
+            <!-- Packages 3D Infographic Showcase -->
+            <img src="adamus_4packages_3d_1789575906286.jpg" alt="ADAMUS 4 Packages 3D Showcase" style="width: 100%; height: 38mm; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.15);">
+
+            <!-- 4 Package Cards (2x2 Grid) -->
+            <div class="packages-grid">
+                
+                <!-- PACK 1: SUPER SAVER PACK -->
+                <div class="package-card">
+                    <div>
+                        <div class="pack-title" style="color: #93c5fd;">SUPER SAVER PACK</div>
+                        <div class="pack-price">₹9,899 <span>/ month</span></div>
+                        <ul class="pack-features">
+                            <li><strong>FREE Website</strong> included</li>
+                            <li><strong>Brand Awareness Campaign</strong> (2 posts per day)</li>
+                            <li><strong>Meta Ad</strong> (1 post weekly)</li>
+                        </ul>
+                    </div>
+                    <div style="font-size: 9px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px; margin-top: 6px;">
+                        Best For: Local shops & new businesses launching online.
+                    </div>
+                </div>
+
+                <!-- PACK 2: POCKET FRIENDLY PACK (POPULAR) -->
+                <div class="package-card popular">
+                    <span class="popular-tag">Most Popular</span>
+                    <div>
+                        <div class="pack-title" style="color: #fbbf24;">POCKET FRIENDLY PACK</div>
+                        <div class="pack-price">₹13,899 <span>/ month</span></div>
+                        <ul class="pack-features">
+                            <li><strong>FREE Website</strong> included</li>
+                            <li><strong>On-Page SEO</strong> (Basic)</li>
+                            <li><strong>Brand Awareness</strong> (4 posts per day)</li>
+                            <li><strong>Meta Ads</strong> (2 ads/week including Reels)</li>
+                            <li><strong>Website Monthly Maintenance</strong> Included</li>
+                        </ul>
+                    </div>
+                    <div style="font-size: 9px; color: #fbbf24; border-top: 1px solid rgba(245,158,11,0.2); padding-top: 4px; margin-top: 6px;">
+                        Best For: Scaling retail stores, clinics & service businesses.
+                    </div>
+                </div>
+
+                <!-- PACK 3: PROFIT BOOSTER PACK -->
+                <div class="package-card" style="border-color: #34d399;">
+                    <span class="popular-tag" style="background: #10b981;">Best ROI</span>
+                    <div>
+                        <div class="pack-title" style="color: #34d399;">PROFIT BOOSTER PACK</div>
+                        <div class="pack-price">₹22,999 <span>/ month</span></div>
+                        <ul class="pack-features">
+                            <li><strong>FREE Website</strong> (Fully Dynamic)</li>
+                            <li><strong>On-Page SEO</strong></li>
+                            <li><strong>Brand Awareness Campaign</strong> (8-10 posts per day)</li>
+                            <li><strong>Meta Ads</strong> (4 posts plus Reels)</li>
+                            <li><strong>FREE Website Maintenance</strong></li>
+                        </ul>
+                    </div>
+                    <div style="font-size: 9px; color: #34d399; border-top: 1px solid rgba(16,185,129,0.2); padding-top: 4px; margin-top: 6px;">
+                        Best For: High-growth businesses aiming for maximum daily leads.
+                    </div>
+                </div>
+
+                <!-- PACK 4: ELITE LEAD GENERATOR PACK -->
+                <div class="package-card elite">
+                    <span class="elite-tag">Enterprise</span>
+                    <div>
+                        <div class="pack-title" style="color: #38bdf8;">ELITE LEAD GENERATOR</div>
+                        <div class="pack-price">₹52,999 <span>/ month</span></div>
+                        <ul class="pack-features">
+                            <li><strong>FREE Custom Dynamic E-Commerce Website</strong></li>
+                            <li><strong>Complete SEO</strong> (On-Page + Google Maps #1 Ranking)</li>
+                            <li><strong>Brand Awareness Campaign</strong> (10-15 posts & Reels/day)</li>
+                            <li><strong>Meta Ads</strong> (Up to 5 Reels / week)</li>
+                            <li><strong>E-Commerce Website Maintenance</strong> Included</li>
+                        </ul>
+                    </div>
+                    <div style="font-size: 9px; color: #38bdf8; border-top: 1px solid rgba(56,189,248,0.2); padding-top: 4px; margin-top: 6px;">
+                        Best For: E-Commerce brands & multi-location businesses.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Layman's Simple Guide -->
+            <div class="layman-guide-box">
+                <h4>💡 Simple Layman's Guide — What These Services Mean For Your Shop:</h4>
+                <div class="glossary-grid">
+                    <div class="glossary-item">
+                        <strong>• Brand Awareness:</strong> We create & publish attractive daily graphics on Instagram & Facebook to keep your business famous in your city.
+                    </div>
+                    <div class="glossary-item">
+                        <strong>• Meta Ads & Reels:</strong> Paid promotional campaigns on Instagram & Facebook that target people near your shop ready to buy.
+                    </div>
+                    <div class="glossary-item">
+                        <strong>• On-Page SEO:</strong> Optimizing your website text & Google Business Profile so local customers searching Google find you #1.
+                    </div>
+                    <div class="glossary-item">
+                        <strong>• FREE Website & Maintenance:</strong> A custom phone-friendly website with instant WhatsApp chat buttons & zero server headaches.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Prices exclusive of applicable taxes. Flexible month-to-month contracts.</span>
+            <span>Page 2 • ADAMUS Growth Packages</span>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 3: FREE WEBSITE, CLIENT PORTAL & CTA ==================== -->
+    <div class="brochure-page">
+        <div class="bg-glow-cyan" style="top: -50px; left: -50px;"></div>
+
+        <div>
+            <!-- Header -->
+            <div class="header-nav">
+                <div class="brand-logo">
+                    <span class="logo-mark">▲</span>
+                    <span class="logo-text">ADAMUS</span>
+                </div>
+                <div class="page-tag">Page 3 • Web Features & Onboarding</div>
+            </div>
+
+            <!-- FREE Website Detailed Breakdown -->
+            <h2 class="section-title" style="margin-top: 10px;">
+                Everything Included in Your <span class="gradient-gold">FREE Business Website</span>
+            </h2>
+            <p class="subtitle">No developer fees. No maintenance charges. Our engineering team builds, hosts, and updates your site!</p>
+
+            <div class="grid-2col" style="margin-top: 10px;">
+                <div class="card-box" style="border-left: 3px solid #f59e0b;">
+                    <h4 style="color: #fbbf24;">📱 Mobile & WhatsApp Integrated</h4>
+                    <p>Built with instant <strong>"Click to Call"</strong> and <strong>WhatsApp Floating Buttons</strong> on every page so interested buyers contact your phone directly.</p>
+                </div>
+                <div class="card-box" style="border-left: 3px solid #38bdf8;">
+                    <h4 style="color: #38bdf8;">📍 Google Maps & Location Directions</h4>
+                    <p>Integrates your exact store location with turn-by-turn navigation on Google Maps so local shoppers can visit your outlet seamlessly.</p>
+                </div>
+                <div class="card-box" style="border-left: 3px solid #10b981;">
+                    <h4 style="color: #34d399;">🔒 Free High-Speed Cloud Hosting & SSL</h4>
+                    <p>Includes fast cloud server hosting, SSL security locks (https://), and ongoing monthly maintenance at ₹0 extra cost.</p>
+                </div>
+                <div class="card-box" style="border-left: 3px solid #a855f7;">
+                    <h4 style="color: #c084fc;">🛍️ Dynamic E-Commerce Store (Elite Pack)</h4>
+                    <p>Full online store capability with product catalog listing, digital shopping cart, and customer contact forms routed to your SMS/Email.</p>
+                </div>
+            </div>
+
+            <!-- Client Portal Highlight -->
+            <div style="background: rgba(15,23,42,0.8); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 12px 16px; margin-top: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4 style="font-size: 13px; color: #ffffff; font-weight: 800;">📊 24/7 Client Workspace Portal (<span style="color: #38bdf8;">/customer.html</span>)</h4>
+                        <p style="font-size: 10.5px; color: #cbd5e1; margin-top: 2px;">Log in from your mobile phone anytime to check active customer leads, click-through rates, and live ad reports.</p>
+                    </div>
+                    <div style="background: rgba(56,189,248,0.2); color: #38bdf8; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 12px; white-space: nowrap;">
+                        Live Telemetry
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onboarding 4 Steps -->
+            <h3 style="font-size: 14px; font-weight: 800; color: #ffffff; margin-top: 14px;">Simple 4-Step Onboarding (Live in 5-7 Days):</h3>
+            <div class="timeline-steps">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h5>Kickoff Call</h5>
+                    <p>Share shop details & logo</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h5>Free Web Setup</h5>
+                    <p>Tech team launches site</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h5>Ads & SEO Launch</h5>
+                    <p>Campaigns go live</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num" style="background: #10b981; color: #ffffff;">4</div>
+                    <h5 style="color: #34d399;">Daily Leads</h5>
+                    <p>Receive inquiries daily!</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <!-- Call to Action & Contact -->
+            <div class="cta-footer-card">
+                <div class="cta-info">
+                    <h3>Ready to Scale Your Inquiries & Get Your FREE Website?</h3>
+                    <p>Claim your launch offer today! Contact your ADAMUS Sales Specialist.</p>
+                    <div class="contact-pills">
+                        <span>📲 <strong>WhatsApp / Call:</strong> +91 98765 43210</span>
+                        <span>✉️ <strong>Email:</strong> sales@adamus.io</span>
+                        <span>🌐 <strong>Web:</strong> www.adamus.io</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bar">
+                <span>© 2026 ▲ ADAMUS Digital Marketing Engine. All rights reserved.</span>
+                <span>Page 3 • Contact & Web Features</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
